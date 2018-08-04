@@ -4,7 +4,10 @@ import steam.steamInterface.A;
 import steam.steamInterface.B;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * User: zzw
@@ -18,14 +21,25 @@ public class steam基本使用 implements A, B {
     }
 
     /***
-     * 1.
+     * 做了任何中间操作 必须使用中止操作的api 否则中间操作不执行
+     * 如下 不加.count(); filter方法内的Predicate函数不执行
+     * 称为惰性求值 或 延迟加载
      *
      */
 
     public static void main(String[] args) {
-        List<String> list=new ArrayList<>();
-        steam基本使用 a=new steam基本使用();
-        a.a();
+        List<String> list=new ArrayList<>(Arrays.asList("1","2","3","4"));
+        Stream<String> stream = list.stream();
+        stream.filter(x->{
+            System.out.println("我是过滤操作");
+            return true;
+        }).limit(5).forEach(System.out::println);
+
+
+        Stream<String> stringStream = Stream.of("1", "2", "3", "4");
+
+        Stream<Integer> iterate = Stream.iterate(0, x -> x + 1);
+        //iterate.limit(stringStream.count()).forEach(System.out::println);
     }
 
 
